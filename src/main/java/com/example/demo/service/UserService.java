@@ -72,7 +72,24 @@ public class UserService {
         user.setProfilePicture("");
         userRepo.save(user);
 
-
     }
 
+    public void updateUserProfileImage(Long userId, MultipartFile file) {
+        var user = userRepo.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+        try {
+            s3Service.deleteObject(
+                    "java-s3-bucket-test",
+                    "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture())
+            );
+            s3Service.putObject(
+                    "java-s3-bucket-test",
+                    "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture()),
+                    file.getBytes()
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException("User not found");
+        }
+
+    }
 }
