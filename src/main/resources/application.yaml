@@ -1,7 +1,10 @@
 spring:
   profiles:
     active: dev
-
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 aws:
   region: us-east-1
@@ -9,5 +12,6 @@ aws:
 s3:
   buckets:
     customer: java-s3-bucket-test
+
 
 
