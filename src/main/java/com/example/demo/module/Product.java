@@ -21,6 +21,10 @@ public class Product {
     private String description;
     private Double price;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private List<ProductImages> images;

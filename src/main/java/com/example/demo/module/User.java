@@ -26,6 +26,11 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String profilePicture;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
