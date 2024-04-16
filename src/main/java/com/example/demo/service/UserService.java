@@ -62,4 +62,17 @@ public class UserService {
 
     }
 
+    public void deleteUserProfileImage(Long userId) {
+        var user = userRepo.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+        s3Service.deleteObject(
+                "java-s3-bucket-test",
+                "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture())
+        );
+        user.setProfilePicture("");
+        userRepo.save(user);
+
+
+    }
+
 }
