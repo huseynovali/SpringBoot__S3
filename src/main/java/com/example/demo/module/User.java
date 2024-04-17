@@ -27,9 +27,8 @@ public class User implements UserDetails {
     private String password;
     private String profilePicture;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> product;
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -26,6 +26,9 @@ public class UserService {
         User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return userMapper.toResponseUser(user);
     }
+    public User findById(Long id) {
+        return userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
     public List<UserResponseDto> getAllUsers() {
         return userRepo.findAll().stream().map(userMapper::toResponseUser).toList();
@@ -39,7 +42,7 @@ public class UserService {
             var profileImage = UUID.randomUUID().toString();
             s3Service.putObject(
                     "java-s3-bucket-test",
-                    "profile/images/%s/%s/".formatted(userId, profileImage),
+                    "profile/accoundimage/%s/%s/".formatted(userId, profileImage),
                     file.getBytes()
             );
 
@@ -56,7 +59,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalStateException("User not found"));
         return s3Service.getObject(
                 "java-s3-bucket-test",
-                "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture())
+                "profile/accoundimage/%s/%s/".formatted(user.getId(), user.getProfilePicture())
 
         );
 
@@ -67,7 +70,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalStateException("User not found"));
         s3Service.deleteObject(
                 "java-s3-bucket-test",
-                "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture())
+                "profile/accoundimage/%s/%s/".formatted(user.getId(), user.getProfilePicture())
         );
         user.setProfilePicture("");
         userRepo.save(user);
@@ -80,11 +83,11 @@ public class UserService {
         try {
             s3Service.deleteObject(
                     "java-s3-bucket-test",
-                    "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture())
+                    "profile/accoundimage/%s/%s/".formatted(user.getId(), user.getProfilePicture())
             );
             s3Service.putObject(
                     "java-s3-bucket-test",
-                    "profile/images/%s/%s/".formatted(user.getId(), user.getProfilePicture()),
+                    "profile/accoundimage/%s/%s/".formatted(user.getId(), user.getProfilePicture()),
                     file.getBytes()
             );
         } catch (Exception e) {

@@ -8,6 +8,8 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import java.util.List;
+
 @Service
 public class S3Service {
 
@@ -41,6 +43,12 @@ public class S3Service {
 
     public void deleteObject(String bucketName, String key) {
         s3Client.deleteObject(builder -> builder.bucket(bucketName).key(key));
+    }
+
+    public void uploadMultipleImages(String bucketName, String key, List<byte[]> files) {
+        for (int i = 0; i < files.size(); i++) {
+            putObject(bucketName, key + i, files.get(i));
+        }
     }
 
 }
