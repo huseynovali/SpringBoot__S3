@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponse {
+    private Long id;
     private String name;
     private String description;
     private Double price;
-
+    private List<ProductImages> images;
 }

@@ -31,8 +31,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(Customizer.withDefaults());
         http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll());
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/use/public/**").permitAll());
         http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/admin/**").hasAnyAuthority("ADMIN"));
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/use/**").hasAnyAuthority("USER", "ADMIN"));
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/use/private/**").hasAnyAuthority("USER", "ADMIN"));
         http.authorizeHttpRequests((auth) -> auth.anyRequest().authenticated());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider);

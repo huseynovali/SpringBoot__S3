@@ -101,6 +101,15 @@ public class ProductService {
         productRepo.save(product);
     }
 
+    public byte[] getProductImage(Long productId, Long imageId) {
+        Product product = productRepo.findById(productId).orElseThrow(() -> new IllegalStateException("Ürün bulunamadı"));
+        ProductImages productImage = product.getImages().stream()
+                .filter(productImages -> productImages.getId().equals(imageId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Fotoğraf bulunamadı"));
+        return s3Service.getObject("java-s3-bucket-test", productImage.getImageUrl());
+    }
+
 
 
 
