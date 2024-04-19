@@ -95,6 +95,14 @@ public class ProductService {
         }
     }
 
+    public List<ProductResponse> getAllProducts() {
+        List<Product> products = productRepo.findAll();
+
+        return products.stream()
+                .map(productMapper::toResponseProduct)
+                .toList();
+    }
+
     public void deleteProductImage(Long productId, Long imageId) {
         Product product = productRepo.findById(productId).orElseThrow(() -> new IllegalStateException("Ürün bulunamadı"));
         product.getImages().removeIf(productImages -> productImages.getId().equals(imageId));

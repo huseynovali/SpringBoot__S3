@@ -46,19 +46,19 @@ public class AuthenticationService {
 //        return AuthenticationResponseDto.builder()
 //                .token(jwtToken)
 //                .build();
-    return  "User registered successfully";
+        return "User registered successfully";
 
     }
 
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
-         authenticationMeneger.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        authenticationMeneger.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        var user = userRepo.findByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepo.findByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("Email and password not match"));
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", user.getAuthorities().stream().map(Object::toString).toArray());
         claims.put("userId", user.getId());
-        String token = jwtService.generateToken( claims,user);
+        String token = jwtService.generateToken(claims, user);
 
         return AuthenticationResponseDto.builder()
                 .token(token)
